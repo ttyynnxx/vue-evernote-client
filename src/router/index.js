@@ -23,8 +23,7 @@ export default new Router({
       path: '/note/:noteId',
       name: 'NoteDetail',
       component: NoteDetail
-    }
-    ,
+    },
     {
       path: '/trash/:noteId',
       name: 'TrashDetail',
