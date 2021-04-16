@@ -52,6 +52,13 @@
 </template>
 
 <script>
+import request from "@/helpers/request.js";
+
+request("/auth/login", "POST", { username: "hunger", password: "123456" }).then(
+  data => {
+    console.log(data);
+  }
+);
 export default {
   name: "Login",
   data() {
@@ -59,10 +66,10 @@ export default {
       isShowLogin: true,
       isShowRegister: false,
       login: {
-        username: "admin",
-        password: "123456",
+        username: "",
+        password: "",
         notice: "请输入用户名和密码",
-        isError: true
+        isError: false
       },
       register: {
         username: "",
@@ -111,9 +118,7 @@ export default {
       }
       this.login.isError = false;
       this.login.notice = "";
-    },
-    validUsername(username) {},
-    validPassword(password) {}
+    }
   }
 };
 </script>
