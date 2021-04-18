@@ -27,13 +27,8 @@ export default {
   components: { Avatar },
   methods: {
     logout() {
-      console.log("logout");
-      // request("/auth/logout").then(data => {
-      //   console.log(data);
-      // });
-
       Auth.logout().then(data => {
-        console.log(data);
+        this.$router.push({ path: "login" });
       });
     }
   }

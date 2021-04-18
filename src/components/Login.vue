@@ -52,94 +52,98 @@
 </template>
 
 <script>
-import Auth from "@/apis/auth";
+import Auth from '@/apis/auth'
+import Bus from '@/helpers/bus.js'
 
 Auth.getInfo().then(data => {
-  console.log(data);
-});
-// import request from "@/helpers/request.js";
+  console.log(data)
+})
 
-// request("/auth").then(data => {
-//   console.log(data);
-// });
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     return {
       isShowLogin: true,
       isShowRegister: false,
       login: {
-        username: "",
-        password: "",
-        notice: "请输入用户名和密码",
+        username: '',
+        password: '',
+        notice: '请输入用户名和密码',
         isError: false
       },
       register: {
-        username: "",
-        password: "",
-        notice: "创建账号后请记住用户名和密码",
+        username: '',
+        password: '',
+        notice: '创建账号后请记住用户名和密码',
         isError: false
       }
-    };
+    }
   },
   methods: {
     ShowRegister() {
-      this.isShowRegister = true;
-      this.isShowLogin = false;
+      this.isShowRegister = true
+      this.isShowLogin = false
     },
     ShowLogin() {
-      this.isShowRegister = false;
-      this.isShowLogin = true;
+      this.isShowRegister = false
+      this.isShowLogin = true
     },
     onRegister() {
       if (!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.register.username)) {
-        this.register.isError = true;
-        this.register.notice = "用户名3~15个字符，仅限于字母数字下划线中文";
-        return;
+        this.register.isError = true
+        this.register.notice = '用户名3~15个字符，仅限于字母数字下划线中文'
+        return
       }
       if (!/^.{6,16}$/.test(this.register.password)) {
-        this.register.isError = true;
-        this.register.notice = "密码长度为6~16个字符";
-        return;
+        this.register.isError = true
+        this.register.notice = '密码长度为6~16个字符'
+        return
       }
-      this.register.isError = false;
-      this.register.notice = "";
-      console.log(
-        `start register..., username: ${this.register.username} , password: ${this.register.password}`
-      );
       Auth.register({
         username: this.register.username,
         password: this.register.password
-      }).then(data => {
-        console.log(data);
-      });
+      })
+        .then(data => {
+          this.register.isError = false
+          this.register.notice = ''
+          Bus.$emit('userInfo', { username: this.login.username })
+          this.$router.push({ path: 'notebooks' })
+        })
+        .catch(data => {
+          this.register.isError = true
+          this.register.notice = data.msg
+        })
     },
     onLogin() {
       if (!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.login.username)) {
-        this.login.isError = true;
-        this.login.notice = "用户名3~15个字符，仅限于字母数字下划线中文";
-        return;
+        this.login.isError = true
+        this.login.notice = '用户名3~15个字符，仅限于字母数字下划线中文'
+        return
       }
       if (!/^.{6,16}$/.test(this.login.password)) {
-        this.login.isError = true;
-        this.login.notice = "密码长度为6~16个字符";
-        return;
+        this.login.isError = true
+        this.login.notice = '密码长度为6~16个字符'
+        return
       }
-      this.login.isError = false;
-      this.login.notice = "";
-
-      console.log(
-        `start login..., username: ${this.login.username} , password: ${this.login.password}`
-      );
       Auth.login({
         username: this.login.username,
         password: this.login.password
-      }).then(data => {
-        console.log(data);
-      });
+      })
+        .then(data => {
+          this.login.isError = false
+          this.login.notice = ''
+          this.$router.push({ path: 'notebooks' })
+          Bus.$emit('userInfo', { username: this.login.username })
+          console.log('start redirect...')
+        })
+        .catch(data => {
+          this.login.isError = true
+          this.login.notice = data.msg
+          console.log(data)
+        })
     }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>

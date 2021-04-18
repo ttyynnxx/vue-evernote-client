@@ -5,13 +5,22 @@
 </template>
 
 <script>
+import Auth from '@/apis/auth'
+
 export default {
   data() {
     return {
-      msg: "回收站笔记本详情"
-    };
+      msg: '回收站笔记本详情'
+    }
+  },
+  created() {
+    Auth.getInfo().then(res => {
+      if (!res.isLogin) {
+        this.$router.push({ path: '/login' })
+      }
+    })
   }
-};
+}
 </script>
 
 <style scoped>
