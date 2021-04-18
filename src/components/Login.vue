@@ -4,7 +4,7 @@
       <div class="modal-wrapper">
         <div class="modal-container">
           <div class="main"></div>
-          <div class="form">
+          <form>
             <h3 @click="ShowRegister">创建账户</h3>
             <transition name="slide">
               <div v-bind:class="{ show: isShowRegister }" class="register">
@@ -44,7 +44,7 @@
                 <div class="button" @click="onLogin">登录</div>
               </div>
             </transition>
-          </div>
+          </form>
         </div>
       </div>
     </div>
@@ -52,13 +52,16 @@
 </template>
 
 <script>
-import request from "@/helpers/request.js";
+import Auth from "@/apis/auth";
 
-// request("/auth/login", "POST", { username: "hunger", password: "123456" }).then(
-//   data => {
-//     console.log(data);
-//   }
-// );
+Auth.getInfo().then(data => {
+  console.log(data);
+});
+// import request from "@/helpers/request.js";
+
+// request("/auth").then(data => {
+//   console.log(data);
+// });
 export default {
   name: "Login",
   data() {
@@ -104,6 +107,12 @@ export default {
       console.log(
         `start register..., username: ${this.register.username} , password: ${this.register.password}`
       );
+      Auth.register({
+        username: this.register.username,
+        password: this.register.password
+      }).then(data => {
+        console.log(data);
+      });
     },
     onLogin() {
       if (!/^[\w\u4e00-\u9fa5]{3,15}$/.test(this.login.username)) {
@@ -118,6 +127,16 @@ export default {
       }
       this.login.isError = false;
       this.login.notice = "";
+
+      console.log(
+        `start login..., username: ${this.login.username} , password: ${this.login.password}`
+      );
+      Auth.login({
+        username: this.login.username,
+        password: this.login.password
+      }).then(data => {
+        console.log(data);
+      });
     }
   }
 };
@@ -154,12 +173,10 @@ export default {
 
   .main {
     flex: 1;
-    background: #36bc64
-      url(//cloud.hunger-valley.com/17-12-13/38476998.jpg-middle) center center
-      no-repeat;
+    background: #36bc64 url(../assets/logo.png) center center no-repeat;
     background-size: contain;
   }
-  .form {
+  form {
     width: 270px;
     border-left: 1px solid #ccc;
     overflow: hidden;
