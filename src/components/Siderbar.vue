@@ -2,7 +2,7 @@
   <div id="sidebar">
     <Avatar />
     <div class="icons">
-      <router-link to="/notebook/" title="笔记本"
+      <router-link to="/note" title="笔记本"
         ><i class="iconfont icon-note"></i
       ></router-link>
       <router-link to="/notebooks" title="笔记本"

@@ -10,6 +10,10 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/',
+      redirect: '/login'
+    },
+    {
       path: '/login',
       name: 'Login',
       component: Login
@@ -20,12 +24,12 @@ export default new Router({
       component: NotebookList
     },
     {
-      path: '/note/:noteId',
+      path: '/note',
       name: 'NoteDetail',
       component: NoteDetail
     },
     {
-      path: '/trash/:noteId',
+      path: '/trash',
       name: 'TrashDetail',
       component: TrashDetail
     }
