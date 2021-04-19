@@ -1,6 +1,6 @@
 <template>
     <div id="note" class="detail">
-      <NoteSideBar/>
+      <NoteSidebar/>
       <div id="note-detail">
         <h1>notebookId : {{ $route.query.notebookId }}</h1>
         <h1>noteId : {{ $route.query.noteId }}</h1>
@@ -10,15 +10,15 @@
 
 <script>
 import Auth from '@/apis/auth'
-import NoteSideBar from '@/components/NoteSideBar.vue'
+import NoteSidebar from '@/components/NoteSideBar.vue'
 
 export default {
   components:{
-    NoteSideBar
+    NoteSidebar
   },
   data() {
     return {
-      msg: '笔记本详情列表'
+      notes: [],
     }
   },
   created() {

@@ -7,7 +7,7 @@
       placement="bottom"
     >
       <span class="el-dropdown-link">
-        {{ notebooks}} <i class="iconfont icon-down"></i>
+        {{ curBook.title }} <i class="iconfont icon-down"></i>
       </span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item
@@ -36,42 +36,33 @@
 
 <script>
 import Notebooks from '@/apis/notebooks'
-  import Notes from '@/apis/notes'
-//   import Bus from '@/helpers/bus'
+import Notes from '@/apis/notes'
+import Bus from '@/helpers/bus'
 
 export default {
   created() {
     Notebooks.getAll()
       .then(res => {
         this.notebooks = res.data
-        // this.curBook =
-        //   this.notebooks.find(
-        //     notebook => notebook.id == this.$route.query.notebookId
-        //   ) ||
-        //   this.notebooks[0] ||
-        //   {}
-        // return Notes.getAll({ notebookId: this.curBook.id })
+        this.curBook =
+          this.notebooks.find(
+            notebook => notebook.id == this.$route.query.notebookId
+          ) ||
+          this.notebooks[0] ||
+          {}
+        return Notes.getAll({ notebookId: this.curBook.id })
       })
-    //   .then(res => {
-    //     // this.notes = res.data
-    //     // this.$emit('update:notes', this.notes)
-    //     // Bus.$emit('update:notes', this.notes)
-    //   })
+      .then(res => {
+        this.notes = res.data
+        // this.$emit('update:notes', this.notes)
+        // Bus.$emit('update:notes', this.notes)
+      })
   },
 
   data() {
     return {
       notebooks: [],
-      notes: [
-        {
-          id: 1,
-          title: '笔记1'
-        },
-        {
-          id: 2,
-          title: '笔记2'
-        }
-      ],
+      notes: [],
       curBook: {}
     }
   },
@@ -84,7 +75,7 @@ export default {
       this.curBook = this.notebooks.find(notebook => notebook.id == notebookId)
       Notes.getAll({ notebookId }).then(res => {
         this.notes = res.data
-        this.$emit('update:notes', this.notes)
+        // this.$emit('update:notes', this.notes)
       })
     },
 
