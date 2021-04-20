@@ -35,9 +35,9 @@
 </template>
 
 <script>
-import Notebooks from '@/apis/notebooks'
-import Notes from '@/apis/notes'
-import Bus from '@/helpers/bus'
+// import Notebooks from '@/apis/notebooks'
+// import Notes from '@/apis/notes'
+// import Bus from '@/helpers/bus'
 import { mapMutations,mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -47,9 +47,9 @@ export default {
           this.setCurBook({ curBookId: this.$route.query.notebookId })
           return this.getNotes({ notebookId: this.curBook.id})
          })
-        // .then(() => {
-        //   this.setCurNote({ curNoteId: this.$route.query.noteId })
-        // }) 
+        .then(() => {
+          this.setCurNote({ curNoteId: this.$route.query.noteId })
+        }) 
   },
   computed: {
       ...mapGetters([
