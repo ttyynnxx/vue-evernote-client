@@ -35,8 +35,8 @@
 
 <script>
 import Auth from '@/apis/auth.js'
-import Notebooks from '@/apis/notebooks.js'
-import { friendlyDate } from '@/helpers/util'
+// import Notebooks from '@/apis/notebooks.js'
+// import { friendlyDate } from '@/helpers/util'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
