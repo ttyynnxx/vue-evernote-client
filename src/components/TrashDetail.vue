@@ -38,8 +38,7 @@
 
 <script>
 import Auth from '@/apis/auth'
-import { mapMutations,mapState, mapActions, mapGetters } from 'vuex'
-import _ from 'lodash'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import MarkdownIt from 'markdown-it'
 
 let md = new MarkdownIt()
@@ -47,59 +46,52 @@ let md = new MarkdownIt()
 export default {
   data() {
     return {
-      curTrashNote:{
-        id:'3',
-        title:"我的笔记",
-        content:'## hello',
-        createdAtFriendly:'昨天',
-        updatedAtFriendly:'刚刚'
-      },
-      belongTo:'我的笔记本11',
-      trashNotes:[{
-        id:'1',
-        title:"我的笔记2",
-        content:'## hello',
-        createdAtFriendly:'昨天',
-        updatedAtFriendly:'刚刚'
-      },{
-        id:'4',
-        title:"我的笔记3",
-        content:'## hello',
-        createdAtFriendly:'昨天',
-        updatedAtFriendly:'刚刚'
-      },{
-        id:'5',
-        title:"我的笔记4",
-        content:'## hello',
-        createdAtFriendly:'昨天',
-        updatedAtFriendly:'刚刚'
-      }]
     }
   },
   created() {
-    Auth.getInfo().then(res => {
-      if (!res.isLogin) {
-        this.$router.push({ path: '/login' })
-      }
+    this.checkLogin({ path: '/login' })
+    this.getNotebooks()
+    this.getTrashNotes().then(()=>{
+      this.setCurTrashNote({ curTrashNoteId: this.$route.query.noteId })
     })
   },
   computed:{
+    ...mapGetters([
+      'trashNotes',
+      'curTrashNote',
+      'belongTo'
+      ]),
     compiledMarkdown(){
        return md.render(this.curTrashNote.content || '')
     }
   },
   methods: {
+    ...mapActions([
+      'checkLogin',
+      'deleteTrashNote',
+      'revertTrashNote',
+      'getTrashNotes',
+      'getNotebooks'
+      ]),
+
+      ...mapMutations([
+      'setCurTrashNote'
+      ]),
 
     onDelete() {
-      console.log('delete');
+      this.deleteTrashNote({noteId:this.curTrashNote.id})
 
     },
 
     onRevert() {
-      console.log('revert');
+      this.revertTrashNote({noteId:this.curTrashNote.id})
     }
 
   },
+   beforeRouteUpdate (to, from, next) {
+    this.setCurTrashNote({ curTrashNoteId: to.query.noteId})
+    next()
+  }
 }
 </script>
 
