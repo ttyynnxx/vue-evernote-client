@@ -52,13 +52,7 @@
 </template>
 
 <script>
-import Auth from '@/apis/auth'
-import Bus from '@/helpers/bus.js'
 import { mapGetters, mapActions } from 'vuex'
-
-Auth.getInfo().then(data => {
-  console.log(data)
-})
 
 export default {
   name: 'Login',
@@ -82,9 +76,9 @@ export default {
   },
   methods: {
     ...mapActions({
-        loginUser: 'login',
-        registerUser: 'register'
-        }),
+      loginUser: 'login',
+      registerUser: 'register'
+    }),
     ShowRegister() {
       this.isShowRegister = true
       this.isShowLogin = false
@@ -137,13 +131,11 @@ export default {
           this.login.isError = false
           this.login.notice = ''
           this.$router.push({ path: 'notebooks' })
-          Bus.$emit('userInfo', { username: this.login.username })
           console.log('start redirect...')
         })
         .catch(data => {
           this.login.isError = true
           this.login.notice = data.msg
-          console.log(data)
         })
     }
   }

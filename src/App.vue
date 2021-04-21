@@ -6,15 +6,15 @@
 </template>
 
 <script>
-import Siderbar from "@/components/Siderbar.vue";
+import Siderbar from '@/components/Siderbar.vue'
 export default {
-  name: "app",
+  name: 'app',
   components: { Siderbar }
-};
+}
 </script>
 
 <style>
-@import "//at.alicdn.com/t/font_496303_kqrjhri8l25d0a4i.css";
+/* @import "//at.alicdn.com/t/font_496303_kqrjhri8l25d0a4i.css"; */
 
 * {
   box-sizing: border-box;
@@ -29,7 +29,7 @@ body,
 }
 
 body {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

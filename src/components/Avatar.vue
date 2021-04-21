@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import Auth from '@/apis/auth'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -16,15 +15,12 @@ export default {
     this.setUser()
   },
   methods: {
-      ...mapActions({
-        'setUser': 'checkLogin'
-      })
-    },
+    ...mapActions({
+      setUser: 'checkLogin'
+    })
+  },
   computed: {
-     ...mapGetters([
-        'username',
-        'slug'
-        ])
+    ...mapGetters(['username', 'slug'])
   }
 }
 </script>

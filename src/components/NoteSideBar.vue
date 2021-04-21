@@ -35,68 +35,53 @@
 </template>
 
 <script>
-// import Notebooks from '@/apis/notebooks'
-// import Notes from '@/apis/notes'
-// import Bus from '@/helpers/bus'
-import { mapMutations,mapState, mapActions, mapGetters } from 'vuex'
+import { mapMutations, mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   created() {
-     this.getNotebooks()
-        .then(() => {
-          this.setCurBook({ curBookId: this.$route.query.notebookId })
-          return this.getNotes({ notebookId: this.curBook.id})
-         })
-        .then(() => {
-          this.setCurNote({ curNoteId: this.$route.query.noteId })
-          this.$router.replace({
-            path:'/note',
-            query:{
-              noteId:this.curNote.id,
-              notebookId:this.curBook.id
-            }
-          })
-        }) 
+    this.getNotebooks()
+      .then(() => {
+        this.setCurBook({ curBookId: this.$route.query.notebookId })
+        if (this.curBook.id)
+          return this.getNotes({ notebookId: this.curBook.id })
+      })
+      .then(() => {
+        this.setCurNote({ curNoteId: this.$route.query.noteId })
+        this.$router.replace({
+          path: '/note',
+          query: {
+            noteId: this.curNote.id,
+            notebookId: this.curBook.id
+          }
+        })
+      })
   },
   computed: {
-      ...mapGetters([
-        'notebooks',
-        'notes',
-        'curBook',
-        'curNote'
-        ])
-    },
+    ...mapGetters(['notebooks', 'notes', 'curBook', 'curNote'])
+  },
 
   data() {
     return {}
   },
 
   methods: {
-    ...mapMutations([
-        'setCurBook',
-        'setCurNote'
-        ]),
-      ...mapActions([
-        'getNotebooks',
-        'getNotes',
-        'addNote'
-        ]),
+    ...mapMutations(['setCurBook', 'setCurNote']),
+    ...mapActions(['getNotebooks', 'getNotes', 'addNote']),
     handleCommand(notebookId) {
       if (notebookId == 'trash') {
         return this.$router.push({ path: '/trash' })
       }
-      this.$store.commit('setCurBook', { curBookId: notebookId})
+      this.$store.commit('setCurBook', { curBookId: notebookId })
       this.getNotes({ notebookId }).then(() => {
-          this.setCurNote({ })
-          this.$router.replace({
-            path:'/note',
-            query:{
-              noteId:this.curNote.id,
-              notebookId:this.curBook.id
-            }
-          })
-        }) 
-      
+        this.setCurNote({ curNoteId: this.$route.query.noteId })
+        this.$router.replace({
+          path: '/note',
+          query: {
+            noteId: this.curNote.id,
+            notebookId: this.curBook.id
+          }
+        })
+      })
     },
 
     onAddNote() {
