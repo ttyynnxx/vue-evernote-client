@@ -45,11 +45,12 @@ export default {
   },
 
   created() {
-    Auth.getInfo().then(res => {
-      if (!res.isLogin) {
-        this.$router.push({ path: '/login' })
-      }
-    })
+    this.checkLogin({ path: '/login' })
+    // Auth.getInfo().then(res => {
+    //   if (!res.isLogin) {
+    //     this.$router.push({ path: '/login' })
+    //   }
+    // })
     this.$store.dispatch('getNotebooks')
   },
   computed: {

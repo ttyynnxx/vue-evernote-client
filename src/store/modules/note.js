@@ -2,7 +2,7 @@ import Note from '@/apis/notes.js'
 import { Message } from 'element-ui'
 
 const state={
-    curNote: null,
+    curNoteId: null,
     notes:null,
 }
 const getters={
@@ -21,10 +21,10 @@ const mutations={
     addNote(state,payload){
         state.notes.unshift(payload.note)
     },
-    updateNote(state,payload){
-        let note =state.notes.find(note=>note.id===payload.noteId) || {}
-        note.title=payload.title
-        note.content=payload.content
+    updateNote(state, payload) {
+      let note = state.notes.find(note => note.id === payload.noteId) || {}
+      note.title = payload.title
+      note.content = payload.content
     },
     deleteNote(state,payload){
         state.notes=state.notes.filter(note=>note.id!==payload.noteId)
@@ -50,8 +50,7 @@ const actions={
       updateNote({ commit }, {noteId,title,content}) {
         return Note.updateNote({noteId}, { title,content  })
           .then(res => {
-            commit('updateNote', { noteId: payload.noteId, title: payload.title ,content:payload.content})
-            Message.success(res.msg)
+            commit('updateNote', { noteId, title ,content})
           })
       },
     

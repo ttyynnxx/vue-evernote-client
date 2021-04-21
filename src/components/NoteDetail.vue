@@ -62,37 +62,30 @@ export default {
     }
   },
   created() {
-    Auth.getInfo().then(res => {
-      if (!res.isLogin) {
-        this.$router.push({ path: '/login' })
-      }
-    })
-  
+    this.checkLogin({ path: '/login' })
+    // Auth.getInfo().then(res => {
+    //   if (!res.isLogin) {
+    //     this.$router.push({ path: '/login' })
+    //   }
+    // })
   },
   computed: {
-    ...mapGetters([
-      'notes',
-      'curNote'
-      ]),
+    ...mapGetters(['notes', 'curNote']),
     previewContent() {
-      console.log(this.curNote.content || '')
+      // console.log(this.curNote.content || '')
       return md.render(this.curNote.content || '')
     }
   },
   methods: {
-    ...mapMutations([
-      'setCurNote'
-      ]),
+    ...mapMutations(['setCurNote']),
 
-    ...mapActions([
-      'updateNote',
-      'deleteNote',
-      'checkLogin'
-      ]),
+    ...mapActions(['updateNote', 'deleteNote', 'checkLogin']),
     onUpdateNote: _.debounce(function() {
-      this.updateNote(
-        { noteId: this.curNote.id }, {title: this.curNote.title, content: this.curNote.content }
-      )
+      this.updateNote({
+        noteId: this.curNote.id,
+        title: this.curNote.title,
+        content: this.curNote.content
+      })
         .then(data => {
           this.statusText = '已保存'
         })
@@ -101,15 +94,16 @@ export default {
         })
     }, 300),
     onDeleteNote() {
-     this.deleteNote({ noteId: this.curNote.id }).then(data => {
+      this.deleteNote({ noteId: this.curNote.id }).then(data => {
         this.$router.replace({ path: '/note' })
       })
     }
   },
-  beforeRouteUpdate(to, from, next) {
+  beforeRouteUpdate (to, from, next) {
    this.setCurNote({ curNoteId: to.query.noteId})
+   // this.curNote =this.notes.find(note=>note.id==to.query.noteId) || {}
     next()
-  },
+  }
 }
 </script>
 

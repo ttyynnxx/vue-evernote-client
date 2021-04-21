@@ -54,6 +54,7 @@
 <script>
 import Auth from '@/apis/auth'
 import Bus from '@/helpers/bus.js'
+import { mapGetters, mapActions } from 'vuex'
 
 Auth.getInfo().then(data => {
   console.log(data)
@@ -80,6 +81,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+        loginUser: 'login',
+        registerUser: 'register'
+        }),
     ShowRegister() {
       this.isShowRegister = true
       this.isShowLogin = false
@@ -99,14 +104,13 @@ export default {
         this.register.notice = '密码长度为6~16个字符'
         return
       }
-      Auth.register({
+      this.registerUser({
         username: this.register.username,
         password: this.register.password
       })
-        .then(data => {
+        .then(() => {
           this.register.isError = false
           this.register.notice = ''
-          Bus.$emit('userInfo', { username: this.login.username })
           this.$router.push({ path: 'notebooks' })
         })
         .catch(data => {
@@ -125,7 +129,7 @@ export default {
         this.login.notice = '密码长度为6~16个字符'
         return
       }
-      Auth.login({
+      this.loginUser({
         username: this.login.username,
         password: this.login.password
       })
