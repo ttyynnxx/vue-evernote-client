@@ -103,4 +103,8 @@ export default {
 
 <style lang="less" scoped>
 @import url(../assets/css/notebook-list.less);
+.book-list {
+  overflow-y: scroll;
+  height: calc(100vh - 131px);
+}
 </style>

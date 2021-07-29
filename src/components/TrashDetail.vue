@@ -119,7 +119,10 @@ export default {
   align-items: stretch;
   background-color: #fff;
   flex: 1;
-
+  .notes {
+    overflow-y: scroll;
+    height: calc(100vh - 70px);
+  }
   .note-bar {
     .action {
       float: right;
