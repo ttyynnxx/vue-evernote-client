@@ -173,7 +173,7 @@ export default {
 
   .main {
     flex: 1;
-    background: #36bc64 url(../assets/logo.png) center center no-repeat;
+    background: #36bc64 url(../assets/logo2.jpg) center center no-repeat;
     background-size: contain;
   }
   form {
