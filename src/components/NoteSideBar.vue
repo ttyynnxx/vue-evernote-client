@@ -93,4 +93,11 @@ export default {
 
 <style lang="less">
 @import url(../assets/css/note-sidebar.less);
+.el-dropdown-menu {
+  max-height: 400px;
+  overflow-y: scroll;
+  .el-dropdown-menu__item {
+    width: 200px;
+  }
+}
 </style>
